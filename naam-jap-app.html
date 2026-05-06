@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🕉️ नाम जाप - दिव्य साधना</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f5c842;
+    --deep-gold: #c9952a;
+    --saffron: #ff6b1a;
+    --deep-saffron: #e55000;
+    --cream: #fdf6e3;
+    --dark: #1a0a00;
+    --dark2: #2d1500;
+    --glow: rgba(245,200,66,0.35);
+    --divine-purple: #3d0066;
+    --lotus-pink: #ff8fab;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Tiro Devanagari Hindi', serif;
+    background: #0d0500;
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== PARTICLE BACKGROUND ===== */
+  #particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* ===== SCREENS ===== */
+  .screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: none; flex-direction: column; align-items: center;
+    overflow-y: auto; z-index: 10;
+    background: radial-gradient(ellipse at top, #2d1000 0%, #0d0500 60%, #000 100%);
+  }
+  .screen.active { display: flex; }
+
+  /* ===== SPLASH SCREEN ===== */
+  #splash {
+    justify-content: center;
+    background: radial-gradient(ellipse at center, #1a0800 0%, #000 100%);
+  }
+  .splash-om {
+    font-size: 120px;
+    background: linear-gradient(135deg, #f5c842, #ff6b1a, #f5c842);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: omPulse 2s ease-in-out infinite, splashIn 1s ease;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(245,200,66,0.8));
+  }
+  @keyframes omPulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(245,200,66,0.8)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 60px rgba(245,200,66,1)); }
+  }
+  @keyframes splashIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .splash-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 22px;
+    color: var(--gold);
+    margin-top: 20px;
+    letter-spacing: 3px;
+    animation: fadeInUp 1.5s ease 0.5s both;
+  }
+  .splash-sub {
+    font-size: 16px;
+    color: rgba(245,200,66,0.6);
+    margin-top: 10px;
+    animation: fadeInUp 1.5s ease 1s both;
+  }
+  @keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ===== AUTH SCREEN ===== */
+  #auth {
+    padding: 40px 20px;
+    background: radial-gradient(ellipse at top, #1a0800 0%, #000 100%);
+  }
+  .auth-header { text-align: center; margin-bottom: 40px; }
+  .auth-om { font-size: 60px; color: var(--gold); filter: drop-shadow(0 0 20px var(--gold)); }
+  .auth-title { font-family: 'Cinzel Decorative', serif; font-size: 20px; color: var(--gold); margin-top: 10px; }
+
+  .auth-card {
+    background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(255,107,26,0.05));
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 20px;
+    padding: 30px 25px;
+    width: 100%; max-width: 380px;
+    backdrop-filter: blur(10px);
+  }
+  .tab-btns { display: flex; gap: 10px; margin-bottom: 25px; }
+  .tab-btn {
+    flex: 1; padding: 10px; border: 1px solid rgba(245,200,66,0.4);
+    border-radius: 10px; background: transparent; color: rgba(245,200,66,0.6);
+    font-family: 'Tiro Devanagari Hindi', serif; font-size: 15px;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .tab-btn.active { background: linear-gradient(135deg, var(--gold), var(--saffron)); color: var(--dark); border-color: transparent; font-weight: 600; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; color: rgba(245,200,66,0.7); font-size: 13px; margin-bottom: 6px; }
+  .form-group input {
+    width: 100%; padding: 12px 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 10px; color: var(--cream);
+    font-family: 'Tiro Devanagari Hindi', serif; font-size: 15px;
+    outline: none; transition: border 0.3s;
+  }
+  .form-group input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(245,200,66,0.2); }
+
+  .divine-btn {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, #f5c842, #ff6b1a, #c9952a);
+    background-size: 200% 200%;
+    border: none; border-radius: 12px;
+    color: var(--dark); font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 17px; font-weight: 600; cursor: pointer;
+    animation: gradientShift 3s ease infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(245,200,66,0.4);
+  }
+  .divine-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.5); }
+  .divine-btn:active { transform: scale(0.97); }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* ===== HOME SCREEN ===== */
+  #home { padding: 0 0 80px 0; }
+
+  .home-header {
+    width: 100%; padding: 20px;
+    background: linear-gradient(180deg, rgba(20,5,0,0.95) 0%, transparent 100%);
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(15px);
+  }
+  .user-greeting { font-size: 13px; color: rgba(245,200,66,0.7); }
+  .user-name { font-size: 17px; color: var(--gold); font-weight: 600; }
+  .header-om { font-size: 35px; color: var(--gold); filter: drop-shadow(0 0 10px var(--gold)); }
+
+  .stats-banner {
+    width: 100%; padding: 20px;
+    display: flex; gap: 15px; justify-content: center;
+    margin-bottom: 10px;
+  }
+  .stat-card {
+    flex: 1; max-width: 140px;
+    background: linear-gradient(135deg, rgba(245,200,66,0.1), rgba(255,107,26,0.08));
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 15px; padding: 15px; text-align: center;
+  }
+  .stat-num { font-size: 28px; color: var(--gold); font-weight: 700; line-height: 1; }
+  .stat-label { font-size: 11px; color: rgba(245,200,66,0.6); margin-top: 5px; }
+
+  .section-title {
+    width: 100%; padding: 0 20px 15px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 14px; color: var(--gold);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  .deity-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 15px; padding: 0 20px; width: 100%;
+  }
+
+  .deity-card {
+    position: relative; border-radius: 20px; overflow: hidden;
+    cursor: pointer; transition: transform 0.3s, box-shadow 0.3s;
+    aspect-ratio: 3/4; min-height: 200px;
+    border: 1px solid rgba(245,200,66,0.2);
+  }
+  .deity-card:active { transform: scale(0.96); }
+  .deity-card:hover { box-shadow: 0 10px 40px rgba(245,200,66,0.3); transform: translateY(-3px); }
+
+  .deity-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px; transition: all 0.5s;
+  }
+  .deity-glow {
+    position: absolute; inset: 0;
+    opacity: 0.6;
+    background: radial-gradient(ellipse at center, var(--deity-color) 0%, transparent 70%);
+    animation: deityGlow 3s ease-in-out infinite;
+  }
+  @keyframes deityGlow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+  }
+  .deity-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 15px 12px 12px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
+  }
+  .deity-name { font-size: 16px; color: var(--gold); font-weight: 600; line-height: 1.2; }
+  .deity-mantra { font-size: 11px; color: rgba(245,200,66,0.6); margin-top: 3px; }
+  .deity-count-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,0.7); border: 1px solid rgba(245,200,66,0.4);
+    border-radius: 20px; padding: 3px 8px;
+    font-size: 11px; color: var(--gold);
+  }
+
+  /* ===== JAP SCREEN ===== */
+  #jap { justify-content: flex-start; }
+
+  .jap-header {
+    width: 100%; padding: 15px 20px;
+    display: flex; align-items: center; gap: 15px;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(245,200,66,0.15);
+  }
+  .back-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.3);
+    color: var(--gold); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .back-btn:active { background: rgba(245,200,66,0.3); }
+  .jap-deity-title { font-family: 'Cinzel Decorative', serif; font-size: 16px; color: var(--gold); }
+
+  /* DIVINE REVEAL SECTION */
+  .divine-reveal {
+    width: 100%; position: relative;
+    height: 280px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .reveal-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .reveal-emoji {
+    font-size: 120px;
+    filter: blur(var(--blur-amount, 40px)) brightness(0.3);
+    transition: filter 3s ease, transform 3s ease;
+    transform: scale(var(--scale-amount, 0.6));
+  }
+  .reveal-glow-ring {
+    position: absolute; width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 2px solid rgba(245,200,66,0.3);
+    animation: ringPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 30px rgba(245,200,66,0.2), inset 0 0 30px rgba(245,200,66,0.1);
+  }
+  .reveal-glow-ring:nth-child(2) { width: 160px; height: 160px; animation-delay: 0.5s; animation-duration: 2.5s; }
+  @keyframes ringPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+
+  /* PROGRESS SECTION */
+  .progress-section { width: 100%; padding: 20px 20px 10px; }
+
+  .target-info {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+  }
+  .target-label { font-size: 13px; color: rgba(245,200,66,0.6); }
+  .target-value { font-size: 13px; color: var(--gold); font-weight: 600; }
+
+  .progress-bar-wrap {
+    width: 100%; height: 8px; background: rgba(255,255,255,0.08);
+    border-radius: 10px; overflow: hidden; position: relative;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, var(--saffron), var(--gold));
+    transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: 0 0 10px rgba(245,200,66,0.5);
+    position: relative;
+  }
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute; right: 0; top: 0; bottom: 0;
+    width: 20px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4));
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+
+  .mala-display {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin-top: 8px; flex-wrap: wrap;
+  }
+  .mala-bead {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(245,200,66,0.2);
+    transition: all 0.3s;
+  }
+  .mala-bead.done { background: var(--gold); box-shadow: 0 0 8px rgba(245,200,66,0.6); }
+  .mala-count { font-size: 12px; color: rgba(245,200,66,0.5); }
+
+  /* COUNTER SECTION */
+  .counter-section {
+    display: flex; flex-direction: column;
+    align-items: center; padding: 20px; gap: 20px;
+    width: 100%;
+  }
+
+  .mantra-display {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(255,107,26,0.05));
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 15px; padding: 15px 20px;
+    width: 100%;
+    animation: mantraGlow 3s ease-in-out infinite;
+  }
+  @keyframes mantraGlow {
+    0%, 100% { box-shadow: 0 0 15px rgba(245,200,66,0.1); }
+    50% { box-shadow: 0 0 30px rgba(245,200,66,0.25); }
+  }
+  .mantra-text { font-size: 22px; color: var(--gold); line-height: 1.4; }
+  .mantra-meaning { font-size: 12px; color: rgba(245,200,66,0.5); margin-top: 5px; }
+
+  .count-display {
+    position: relative;
+    width: 180px; height: 180px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .count-ring-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .count-ring-bg { fill: none; stroke: rgba(245,200,66,0.1); stroke-width: 4; }
+  .count-ring-fill {
+    fill: none;
+    stroke: url(#countGrad);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 502;
+    stroke-dashoffset: 502;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .count-number { font-size: 52px; font-weight: 700; color: var(--gold); line-height: 1; z-index: 1; }
+  .count-label { font-size: 13px; color: rgba(245,200,66,0.6); z-index: 1; }
+
+  .jap-btn {
+    width: 160px; height: 160px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #f5c842, #e55000, #8b2000);
+    border: 3px solid rgba(245,200,66,0.5);
+    color: var(--dark); font-family: 'Tiro Devanagari Hindi', serif;
+    font-size: 28px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 0 40px rgba(245,200,66,0.4), inset 0 0 20px rgba(255,255,255,0.1);
+    transition: transform 0.1s, box-shadow 0.1s;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; line-height: 1.2;
+  }
+  .jap-btn:active { transform: scale(0.93); box-shadow: 0 0 60px rgba(245,200,66,0.7); }
+  .jap-btn::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 60%);
+  }
+  .jap-btn-sub { font-size: 13px; color: rgba(20,5,0,0.7); font-weight: 400; }
+
+  .action-row {
+    display: flex; gap: 15px; width: 100%; padding: 0 20px;
+  }
+  .action-btn {
+    flex: 1; padding: 12px;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 12px; color: rgba(245,200,66,0.8);
+    font-family: 'Tiro Devanagari Hindi', serif; font-size: 14px;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+  }
+  .action-btn:active { background: rgba(245,200,66,0.2); }
+
+  .target-setter {
+    width: 100%; padding: 0 20px 20px;
+  }
+  .target-setter label { display: block; font-size: 13px; color: rgba(245,200,66,0.6); margin-bottom: 8px; }
+  .target-options { display: flex; gap: 8px; flex-wrap: wrap; }
+  .target-opt {
+    padding: 7px 14px;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 20px; color: rgba(245,200,66,0.7);
+    font-size: 13px; cursor: pointer; transition: all 0.2s;
+  }
+  .target-opt.selected { background: linear-gradient(135deg, var(--gold), var(--saffron)); color: var(--dark); border-color: transparent; font-weight: 600; }
+
+  /* ===== COMPLETION OVERLAY ===== */
+  #completionOverlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 1000; text-align: center; padding: 40px;
+  }
+  #completionOverlay.show { display: flex; animation: overlayIn 0.5s ease; }
+  @keyframes overlayIn { from { opacity: 0; transform: scale(1.1); } to { opacity: 1; transform: scale(1); } }
+
+  .complete-emoji { font-size: 100px; animation: completeFloat 2s ease-in-out infinite; filter: drop-shadow(0 0 40px var(--gold)); }
+  @keyframes completeFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.05); }
+  }
+  .complete-title { font-family: 'Cinzel Decorative', serif; font-size: 24px; color: var(--gold); margin-top: 20px; }
+  .complete-msg { color: rgba(245,200,66,0.7); margin-top: 10px; font-size: 16px; line-height: 1.5; }
+  .firework-dots { display: flex; gap: 10px; justify-content: center; margin: 20px 0; }
+  .firework-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    animation: fireworkBounce 1s ease-in-out infinite;
+  }
+  .firework-dot:nth-child(1) { background: var(--gold); animation-delay: 0s; }
+  .firework-dot:nth-child(2) { background: var(--saffron); animation-delay: 0.15s; }
+  .firework-dot:nth-child(3) { background: var(--lotus-pink); animation-delay: 0.3s; }
+  .firework-dot:nth-child(4) { background: #88ff88; animation-delay: 0.45s; }
+  .firework-dot:nth-child(5) { background: #88aaff; animation-delay: 0.6s; }
+  @keyframes fireworkBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-20px); opacity: 1; }
+  }
+
+  /* ===== ALARM SCREEN ===== */
+  #alarm { padding: 20px; }
+  .alarm-header-section { text-align: center; padding: 20px 0 30px; }
+  .alarm-title-text { font-family: 'Cinzel Decorative', serif; font-size: 18px; color: var(--gold); margin-top: 10px; }
+
+  .alarm-card {
+    background: linear-gradient(135deg, rgba(245,200,66,0.08), rgba(255,107,26,0.05));
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 20px; padding: 25px; margin-bottom: 20px;
+  }
+  .alarm-time-display {
+    font-size: 56px; color: var(--gold); text-align: center;
+    font-weight: 300; letter-spacing: 5px;
+    text-shadow: 0 0 30px rgba(245,200,66,0.5);
+    margin-bottom: 10px;
+  }
+  .alarm-time-input {
+    width: 100%; padding: 12px;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 10px; color: var(--gold);
+    font-size: 18px; text-align: center;
+    outline: none; font-family: monospace;
+  }
+  .alarm-days { display: flex; gap: 8px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+  .day-btn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.25);
+    color: rgba(245,200,66,0.6); font-size: 12px;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .day-btn.on { background: linear-gradient(135deg, var(--gold), var(--saffron)); color: var(--dark); border-color: transparent; font-weight: 700; }
+
+  .set-alarm-btn {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, var(--gold), var(--saffron));
+    border: none; border-radius: 12px;
+    color: var(--dark); font-size: 17px;
+    font-family: 'Tiro Devanagari Hindi', serif;
+    font-weight: 600; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(245,200,66,0.4);
+    transition: transform 0.2s;
+    margin-top: 15px;
+  }
+  .set-alarm-btn:active { transform: scale(0.97); }
+
+  .alarm-list { margin-top: 20px; }
+  .alarm-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(245,200,66,0.06);
+    border: 1px solid rgba(245,200,66,0.15);
+    border-radius: 12px; padding: 15px; margin-bottom: 10px;
+  }
+  .alarm-item-time { font-size: 22px; color: var(--gold); }
+  .alarm-item-label { font-size: 12px; color: rgba(245,200,66,0.5); }
+  .alarm-toggle { position: relative; }
+  .toggle-input { display: none; }
+  .toggle-label {
+    display: block; width: 48px; height: 26px;
+    background: rgba(255,255,255,0.1); border-radius: 13px;
+    cursor: pointer; transition: background 0.3s;
+    position: relative;
+  }
+  .toggle-label::after {
+    content: ''; position: absolute;
+    top: 3px; left: 3px; width: 20px; height: 20px;
+    border-radius: 50%; background: white;
+    transition: left 0.3s;
+  }
+  .toggle-input:checked + .toggle-label { background: linear-gradient(135deg, var(--gold), var(--saffron)); }
+  .toggle-input:checked + .toggle-label::after { left: 25px; }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 12px 10px 20px;
+    background: rgba(5,2,0,0.95);
+    border-top: 1px solid rgba(245,200,66,0.15);
+    backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+  .nav-btn {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 4px; padding: 5px 15px;
+    background: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-icon { font-size: 22px; transition: all 0.2s; }
+  .nav-label { font-size: 10px; color: rgba(245,200,66,0.5); transition: color 0.2s; }
+  .nav-btn.active .nav-icon { filter: drop-shadow(0 0 8px var(--gold)); }
+  .nav-btn.active .nav-label { color: var(--gold); }
+
+  /* ===== MUSIC PLAYER ===== */
+  .music-bar {
+    position: fixed; bottom: 75px; right: 15px;
+    background: rgba(10,4,0,0.9);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 30px; padding: 8px 15px;
+    display: flex; align-items: center; gap: 10px;
+    z-index: 99; backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    cursor: pointer; transition: all 0.3s;
+  }
+  .music-bar:hover { border-color: var(--gold); }
+  .music-note { font-size: 18px; animation: musicFloat 2s ease-in-out infinite; }
+  @keyframes musicFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+  .music-text { font-size: 12px; color: rgba(245,200,66,0.7); }
+  .music-eq { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+  .eq-bar { width: 3px; background: var(--gold); border-radius: 2px; animation: eqAnim 0.8s ease-in-out infinite alternate; }
+  .eq-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .eq-bar:nth-child(2) { height: 12px; animation-delay: 0.2s; }
+  .eq-bar:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+  .eq-bar:nth-child(4) { height: 14px; animation-delay: 0.1s; }
+  @keyframes eqAnim { from { height: 4px; } to { height: var(--target-h, 12px); } }
+
+  /* Utils */
+  .text-gold { color: var(--gold); }
+  .hidden { display: none !important; }
+  .ripple-effect {
+    position: absolute; border-radius: 50%;
+    background: rgba(245,200,66,0.4);
+    animation: rippleAnim 0.6s ease-out;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    from { transform: scale(0); opacity: 1; }
+    to { transform: scale(4); opacity: 0; }
+  }
+
+  .notification-toast {
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--gold), var(--saffron));
+    color: var(--dark); padding: 12px 25px; border-radius: 25px;
+    font-size: 15px; font-weight: 600; z-index: 9999;
+    animation: toastIn 0.4s ease;
+    box-shadow: 0 4px 20px rgba(245,200,66,0.5);
+  }
+  @keyframes toastIn { from { transform: translateX(-50%) translateY(-20px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+</style>
+</head>
+<body>
+
+<!-- Particles -->
+<div id="particles"></div>
+
+<!-- SPLASH -->
+<div class="screen active" id="splash">
+  <div class="splash-om">🕉️</div>
+  <div class="splash-title">नाम जाप साधना</div>
+  <div class="splash-sub">दिव्य साधना का पवित्र माध्यम</div>
+</div>
+
+<!-- AUTH -->
+<div class="screen" id="auth">
+  <div class="auth-header">
+    <div class="auth-om">🕉️</div>
+    <div class="auth-title">नाम जाप साधना</div>
+    <div style="font-size:13px;color:rgba(245,200,66,0.5);margin-top:5px;">अपनी साधना यात्रा शुरू करें</div>
+  </div>
+
+  <div class="auth-card">
+    <div class="tab-btns">
+      <button class="tab-btn active" onclick="switchTab('signup')" id="signupTab">नया खाता</button>
+      <button class="tab-btn" onclick="switchTab('login')" id="loginTab">प्रवेश करें</button>
+    </div>
+
+    <div id="signupForm">
+      <div class="form-group">
+        <label>आपका पवित्र नाम</label>
+        <input type="text" id="signupName" placeholder="जैसे: राम भक्त रमेश">
+      </div>
+      <div class="form-group">
+        <label>ईमेल पता</label>
+        <input type="email" id="signupEmail" placeholder="aapka@email.com">
+      </div>
+      <div class="form-group">
+        <label>पासवर्ड</label>
+        <input type="password" id="signupPass" placeholder="कम से कम 6 अक्षर">
+      </div>
+      <button class="divine-btn" onclick="doSignup()">🙏 साधना यात्रा शुरू करें</button>
+    </div>
+
+    <div id="loginForm" class="hidden">
+      <div class="form-group">
+        <label>ईमेल पता</label>
+        <input type="email" id="loginEmail" placeholder="aapka@email.com">
+      </div>
+      <div class="form-group">
+        <label>पासवर्ड</label>
+        <input type="password" id="loginPass" placeholder="पासवर्ड">
+      </div>
+      <button class="divine-btn" onclick="doLogin()">🙏 प्रवेश करें</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="home">
+  <div class="home-header">
+    <div>
+      <div class="user-greeting">जय श्री राम 🙏</div>
+      <div class="user-name" id="homeUserName">साधक</div>
+    </div>
+    <div class="header-om">🕉️</div>
+  </div>
+
+  <div class="stats-banner">
+    <div class="stat-card">
+      <div class="stat-num" id="totalJap">0</div>
+      <div class="stat-label">कुल जाप</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="todayJap">0</div>
+      <div class="stat-label">आज के जाप</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="streakDays">1</div>
+      <div class="stat-label">दिन की श्रृंखला</div>
+    </div>
+  </div>
+
+  <div class="section-title">🌺 देवी-देवता चुनें</div>
+
+  <div class="deity-grid" id="deityGrid"></div>
+
+  <div style="height:100px;"></div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="showHomeScreen()">
+      <span class="nav-icon">🏠</span><span class="nav-label">होम</span>
+    </button>
+    <button class="nav-btn" onclick="showAlarmScreen()">
+      <span class="nav-icon">⏰</span><span class="nav-label">अलार्म</span>
+    </button>
+    <button class="nav-btn" onclick="showProfileInfo()">
+      <span class="nav-icon">🙏</span><span class="nav-label">प्रोफ़ाइल</span>
+    </button>
+  </div>
+</div>
+
+<!-- JAP SCREEN -->
+<div class="screen" id="jap">
+  <div class="jap-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div>
+      <div class="jap-deity-title" id="japDeityName">भगवान विष्णु</div>
+      <div style="font-size:11px;color:rgba(245,200,66,0.5);">दिव्य नाम जाप</div>
+    </div>
+  </div>
+
+  <!-- Divine Reveal -->
+  <div class="divine-reveal">
+    <div class="reveal-bg">
+      <div class="reveal-glow-ring"></div>
+      <div class="reveal-glow-ring"></div>
+      <div class="reveal-emoji" id="revealEmoji">🕉️</div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="target-info">
+      <span class="target-label">लक्ष्य प्रगति</span>
+      <span class="target-value"><span id="currentCount">0</span> / <span id="targetCount">108</span></span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="mala-display" id="malaDisplay"></div>
+  </div>
+
+  <!-- Mantra -->
+  <div style="padding:0 20px;width:100%;">
+    <div class="mantra-display">
+      <div class="mantra-text" id="mantraText">ॐ नमो भगवते वासुदेवाय</div>
+      <div class="mantra-meaning" id="mantraMeaning">भगवान विष्णु की उपासना का मंत्र</div>
+    </div>
+  </div>
+
+  <!-- Counter -->
+  <div class="counter-section">
+    <div class="count-display">
+      <svg class="count-ring-svg" viewBox="0 0 170 170">
+        <defs>
+          <linearGradient id="countGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff6b1a"/>
+            <stop offset="100%" stop-color="#f5c842"/>
+          </linearGradient>
+        </defs>
+        <circle class="count-ring-bg" cx="85" cy="85" r="80"/>
+        <circle class="count-ring-fill" id="countRing" cx="85" cy="85" r="80"/>
+      </svg>
+      <div class="count-number" id="bigCount">0</div>
+      <div class="count-label">जाप</div>
+    </div>
+
+    <button class="jap-btn" id="japBtn" onclick="doJap(event)">
+      जाप<br><span class="jap-btn-sub">स्पर्श करें</span>
+    </button>
+  </div>
+
+  <!-- Target setter -->
+  <div class="target-setter">
+    <label>🎯 लक्ष्य चुनें:</label>
+    <div class="target-options">
+      <button class="target-opt selected" onclick="setTarget(108, this)">108</button>
+      <button class="target-opt" onclick="setTarget(216, this)">216</button>
+      <button class="target-opt" onclick="setTarget(324, this)">324</button>
+      <button class="target-opt" onclick="setTarget(1008, this)">1008</button>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-row">
+    <button class="action-btn" onclick="resetCounter()">🔄 रीसेट</button>
+    <button class="action-btn" onclick="saveProgress()">💾 सेव करें</button>
+  </div>
+
+  <div style="height:100px;"></div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="showHomeScreen()">
+      <span class="nav-icon">🏠</span><span class="nav-label">होम</span>
+    </button>
+    <button class="nav-btn" onclick="showAlarmScreen()">
+      <span class="nav-icon">⏰</span><span class="nav-label">अलार्म</span>
+    </button>
+    <button class="nav-btn" onclick="showProfileInfo()">
+      <span class="nav-icon">🙏</span><span class="nav-label">प्रोफ़ाइल</span>
+    </button>
+  </div>
+</div>
+
+<!-- ALARM SCREEN -->
+<div class="screen" id="alarm">
+  <div class="alarm-header-section">
+    <div style="font-size:50px;">⏰</div>
+    <div class="alarm-title-text">जाप अलार्म</div>
+    <div style="font-size:13px;color:rgba(245,200,66,0.5);margin-top:5px;">प्रतिदिन जाप याद दिलाने के लिए</div>
+  </div>
+
+  <div class="alarm-card">
+    <div class="alarm-time-display" id="alarmTimeDisplay">05:00</div>
+    <input type="time" class="alarm-time-input" id="alarmTimeInput" value="05:00" onchange="updateAlarmDisplay()">
+    <div class="alarm-days">
+      <button class="day-btn on" data-day="0" onclick="toggleDay(this)">र</button>
+      <button class="day-btn on" data-day="1" onclick="toggleDay(this)">सो</button>
+      <button class="day-btn on" data-day="2" onclick="toggleDay(this)">मं</button>
+      <button class="day-btn on" data-day="3" onclick="toggleDay(this)">बु</button>
+      <button class="day-btn on" data-day="4" onclick="toggleDay(this)">गु</button>
+      <button class="day-btn on" data-day="5" onclick="toggleDay(this)">शु</button>
+      <button class="day-btn on" data-day="6" onclick="toggleDay(this)">श</button>
+    </div>
+    <button class="set-alarm-btn" onclick="setAlarm()">🔔 अलार्म सेट करें</button>
+  </div>
+
+  <div class="alarm-list" id="alarmList">
+    <div style="text-align:center;color:rgba(245,200,66,0.4);font-size:14px;padding:20px;">
+      अभी कोई अलार्म नहीं है। ऊपर से नया अलार्म सेट करें।
+    </div>
+  </div>
+
+  <div style="height:100px;"></div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" onclick="showHomeScreen()">
+      <span class="nav-icon">🏠</span><span class="nav-label">होम</span>
+    </button>
+    <button class="nav-btn active" onclick="showAlarmScreen()">
+      <span class="nav-icon">⏰</span><span class="nav-label">अलार्म</span>
+    </button>
+    <button class="nav-btn" onclick="showProfileInfo()">
+      <span class="nav-icon">🙏</span><span class="nav-label">प्रोफ़ाइल</span>
+    </button>
+  </div>
+</div>
+
+<!-- Completion Overlay -->
+<div id="completionOverlay">
+  <div class="complete-emoji" id="completeEmoji">🙏</div>
+  <div class="firework-dots">
+    <div class="firework-dot"></div><div class="firework-dot"></div>
+    <div class="firework-dot"></div><div class="firework-dot"></div>
+    <div class="firework-dot"></div>
+  </div>
+  <div class="complete-title">🎉 लक्ष्य पूर्ण! 🎉</div>
+  <div class="complete-msg" id="completeMsg">आपने आज का जाप लक्ष्य पूरा किया!<br>भगवान की कृपा आप पर बनी रहे! 🙏</div>
+  <div style="margin-top:30px;">
+    <button class="divine-btn" style="width:200px;" onclick="closeCompletion()">🕉️ आगे बढ़ें</button>
+  </div>
+</div>
+
+<!-- Music Bar -->
+<div class="music-bar" id="musicBar" onclick="toggleMusic()">
+  <span class="music-note">♪</span>
+  <span class="music-text" id="musicText">भजन शुरू करें</span>
+  <div class="music-eq" id="musicEq" style="display:none;">
+    <div class="eq-bar"></div><div class="eq-bar"></div>
+    <div class="eq-bar"></div><div class="eq-bar"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const deities = [
+  {
+    id: 'vishnu', name: 'भगवान विष्णु', emoji: '🔱',
+    color: '#1a3a8f', mantra: 'ॐ नमो भगवते वासुदेवाय',
+    meaning: 'सृष्टि के पालनकर्ता भगवान विष्णु की वंदना',
+    bg: 'linear-gradient(135deg, #0a1a4f, #1a3a8f, #2d5aad)'
+  },
+  {
+    id: 'shiv', name: 'भगवान शिव', emoji: '🌙',
+    color: '#4a0080', mantra: 'ॐ नमः शिवाय',
+    meaning: 'महादेव की पंचाक्षरी मंत्र - सबसे पवित्र',
+    bg: 'linear-gradient(135deg, #2d0050, #4a0080, #6b00b3)'
+  },
+  {
+    id: 'hanuman', name: 'श्री हनुमान जी', emoji: '🐚',
+    color: '#8b2000', mantra: 'जय श्री राम',
+    meaning: 'पवनपुत्र हनुमान जी की जय जयकार',
+    bg: 'linear-gradient(135deg, #4a1000, #8b2000, #c43000)'
+  },
+  {
+    id: 'krishna', name: 'श्री कृष्ण जी', emoji: '🪈',
+    color: '#00408b', mantra: 'ॐ नमो नारायणाय',
+    meaning: 'गोविंद गोपाल की मधुर स्तुति',
+    bg: 'linear-gradient(135deg, #001a4f, #00408b, #0066cc)'
+  },
+  {
+    id: 'radha', name: 'श्री राधा रानी', emoji: '🌸',
+    color: '#8b006b', mantra: 'राधे राधे राधे',
+    meaning: 'प्रेम और भक्ति की देवी राधा रानी',
+    bg: 'linear-gradient(135deg, #4a0036, #8b006b, #c000a0)'
+  },
+  {
+    id: 'lakshmi', name: 'माँ लक्ष्मी जी', emoji: '🪷',
+    color: '#8b5000', mantra: 'ॐ श्रीं महालक्ष्म्यै नमः',
+    meaning: 'धन और समृद्धि की देवी लक्ष्मी',
+    bg: 'linear-gradient(135deg, #4a2a00, #8b5000, #c97800)'
+  },
+  {
+    id: 'kali', name: 'माँ काली माता', emoji: '⚔️',
+    color: '#3a003a', mantra: 'जय माँ काली',
+    meaning: 'शक्ति और संहार की देवी माँ काली',
+    bg: 'linear-gradient(135deg, #1a001a, #3a003a, #5a005a)'
+  },
+  {
+    id: 'ram', name: 'भगवान श्री राम', emoji: '🏹',
+    color: '#006b1a', mantra: 'श्री राम जय राम जय जय राम',
+    meaning: 'मर्यादा पुरुषोत्तम राम का पावन नाम',
+    bg: 'linear-gradient(135deg, #002a0a, #006b1a, #00a026)'
+  }
+];
+
+// ===== STATE =====
+let state = {
+  user: null,
+  currentDeity: null,
+  count: 0,
+  target: 108,
+  totalJap: 0,
+  todayJap: 0,
+  streakDays: 1,
+  deityJaps: {},
+  alarms: [],
+  musicPlaying: false
+};
+
+// Load from storage
+function loadState() {
+  const saved = localStorage.getItem('naamjap_state');
+  if (saved) { Object.assign(state, JSON.parse(saved)); }
+  const savedUser = localStorage.getItem('naamjap_user');
+  if (savedUser) { state.user = JSON.parse(savedUser); }
+}
+
+function saveState() {
+  localStorage.setItem('naamjap_state', JSON.stringify({
+    totalJap: state.totalJap,
+    todayJap: state.todayJap,
+    streakDays: state.streakDays,
+    deityJaps: state.deityJaps,
+    alarms: state.alarms,
+    count: state.count,
+    target: state.target
+  }));
+}
+
+// ===== PARTICLES =====
+function createParticles() {
+  const container = document.getElementById('particles');
+  const colors = ['#f5c842', '#ff6b1a', '#ffaa44', '#ffe066', '#ff8844'];
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 4 + 2;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*10+8}s;
+      animation-delay:${Math.random()*8}s;
+      box-shadow:0 0 ${size*2}px currentColor;
+    `;
+    container.appendChild(p);
+  }
+}
+
+// ===== SCREENS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ===== AUTH =====
+function switchTab(tab) {
+  document.getElementById('signupForm').classList.toggle('hidden', tab !== 'signup');
+  document.getElementById('loginForm').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+}
+
+function doSignup() {
+  const name = document.getElementById('signupName').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const pass = document.getElementById('signupPass').value;
+  if (!name || !email || pass.length < 6) {
+    showToast('⚠️ कृपया सभी जानकारी भरें');
+    return;
+  }
+  const user = { name, email, joinDate: new Date().toLocaleDateString('hi-IN') };
+  state.user = user;
+  localStorage.setItem('naamjap_user', JSON.stringify(user));
+  showToast(`🙏 जय श्री राम, ${name} जी!`);
+  setTimeout(() => goToHome(), 1200);
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  const saved = localStorage.getItem('naamjap_user');
+  if (saved) {
+    const user = JSON.parse(saved);
+    if (user.email === email && pass.length >= 6) {
+      state.user = user;
+      showToast(`🙏 पुनः स्वागत है, ${user.name} जी!`);
+      setTimeout(() => goToHome(), 1200);
+      return;
+    }
+  }
+  // Demo login
+  if (email && pass) {
+    state.user = { name: email.split('@')[0], email, joinDate: new Date().toLocaleDateString('hi-IN') };
+    localStorage.setItem('naamjap_user', JSON.stringify(state.user));
+    showToast(`🙏 जय श्री राम!`);
+    setTimeout(() => goToHome(), 1200);
+  } else {
+    showToast('⚠️ सही जानकारी भरें');
+  }
+}
+
+// ===== HOME =====
+function goToHome() {
+  showScreen('home');
+  renderDeityGrid();
+  updateHomeStats();
+  document.getElementById('homeUserName').textContent =
+    (state.user?.name || 'साधक') + ' जी';
+  // Show music bar
+  document.getElementById('musicBar').style.display = 'flex';
+}
+
+function renderDeityGrid() {
+  const grid = document.getElementById('deityGrid');
+  grid.innerHTML = deities.map(d => `
+    <div class="deity-card" onclick="openJap('${d.id}')" style="background:${d.bg};">
+      <div class="deity-bg" style="--deity-color:${d.color}">
+        <div class="deity-glow" style="background:radial-gradient(ellipse at center, ${d.color}88 0%, transparent 70%)"></div>
+        <span style="position:relative;z-index:1;text-shadow:0 0 30px ${d.color};">${d.emoji}</span>
+      </div>
+      <div class="deity-overlay">
+        <div class="deity-name">${d.name}</div>
+        <div class="deity-mantra">${d.mantra}</div>
+      </div>
+      <div class="deity-count-badge">🙏 ${(state.deityJaps[d.id]||0).toLocaleString('hi-IN')}</div>
+    </div>
+  `).join('');
+}
+
+function updateHomeStats() {
+  document.getElementById('totalJap').textContent = (state.totalJap||0).toLocaleString('hi-IN');
+  document.getElementById('todayJap').textContent = (state.todayJap||0).toLocaleString('hi-IN');
+  document.getElementById('streakDays').textContent = state.streakDays||1;
+}
+
+// ===== JAP SCREEN =====
+function openJap(deityId) {
+  state.currentDeity = deities.find(d => d.id === deityId);
+  state.count = 0;
+  showScreen('jap');
+  const d = state.currentDeity;
+  document.getElementById('japDeityName').textContent = d.name;
+  document.getElementById('revealEmoji').textContent = d.emoji;
+  document.getElementById('revealEmoji').style.setProperty('--blur-amount', '40px');
+  document.getElementById('revealEmoji').style.setProperty('--scale-amount', '0.6');
+  document.getElementById('mantraText').textContent = d.mantra;
+  document.getElementById('mantraMeaning').textContent = d.meaning;
+  document.getElementById('bigCount').textContent = '0';
+  document.getElementById('currentCount').textContent = '0';
+  document.getElementById('targetCount').textContent = state.target;
+  updateProgress();
+  buildMala();
+  document.getElementById('musicBar').style.display = 'flex';
+}
+
+function buildMala() {
+  const display = document.getElementById('malaDisplay');
+  const beads = Math.min(state.target, 108);
+  const step = Math.ceil(state.target / beads);
+  display.innerHTML = '';
+  for (let i = 0; i < beads; i++) {
+    const b = document.createElement('div');
+    b.className = 'mala-bead';
+    b.id = `bead-${i}`;
+    display.appendChild(b);
+  }
+  const lbl = document.createElement('div');
+  lbl.className = 'mala-count';
+  lbl.id = 'malaCountLabel';
+  lbl.textContent = `एक माला = ${state.target === 108 ? 108 : state.target} जाप`;
+  display.appendChild(lbl);
+}
+
+function doJap(e) {
+  if (state.count >= state.target) return;
+  state.count++;
+  state.totalJap++;
+  state.todayJap++;
+  if (!state.deityJaps[state.currentDeity.id]) state.deityJaps[state.currentDeity.id] = 0;
+  state.deityJaps[state.currentDeity.id]++;
+  saveState();
+
+  // Update counter
+  document.getElementById('bigCount').textContent = state.count;
+  document.getElementById('currentCount').textContent = state.count;
+
+  // Ring animation
+  const pct = state.count / state.target;
+  const offset = 502 - (502 * pct);
+  document.getElementById('countRing').style.strokeDashoffset = offset;
+
+  // Reveal animation
+  const blurPx = Math.max(0, 40 - (pct * 40));
+  const scalePct = 0.6 + (pct * 0.4);
+  const revealEl = document.getElementById('revealEmoji');
+  revealEl.style.filter = `blur(${blurPx}px) brightness(${0.3 + pct*0.7})`;
+  revealEl.style.transform = `scale(${scalePct})`;
+
+  // Mala bead
+  const beadIdx = Math.min(Math.floor((state.count / state.target) * 108), 107);
+  const bead = document.getElementById(`bead-${beadIdx}`);
+  if (bead) bead.classList.add('done');
+
+  // Progress bar
+  updateProgress();
+
+  // Ripple on button
+  addRipple(e, document.getElementById('japBtn'));
+
+  // Haptic (if supported)
+  if (navigator.vibrate) navigator.vibrate(30);
+
+  // Completion
+  if (state.count >= state.target) {
+    setTimeout(() => showCompletion(), 500);
+  }
+}
+
+function updateProgress() {
+  const pct = Math.min((state.count / state.target) * 100, 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function addRipple(e, btn) {
+  const r = document.createElement('div');
+  r.className = 'ripple-effect';
+  const rect = btn.getBoundingClientRect();
+  const x = (e.clientX || rect.left + rect.width/2) - rect.left;
+  const y = (e.clientY || rect.top + rect.height/2) - rect.top;
+  r.style.cssText = `left:${x}px;top:${y}px;width:40px;height:40px;margin-left:-20px;margin-top:-20px;`;
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 600);
+}
+
+function setTarget(val, btn) {
+  state.target = val;
+  document.querySelectorAll('.target-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('targetCount').textContent = val;
+  state.count = 0;
+  document.getElementById('bigCount').textContent = '0';
+  document.getElementById('currentCount').textContent = '0';
+  document.getElementById('countRing').style.strokeDashoffset = 502;
+  updateProgress();
+  buildMala();
+  const revealEl = document.getElementById('revealEmoji');
+  revealEl.style.filter = 'blur(40px) brightness(0.3)';
+  revealEl.style.transform = 'scale(0.6)';
+  document.querySelectorAll('.mala-bead').forEach(b => b.classList.remove('done'));
+}
+
+function resetCounter() {
+  state.count = 0;
+  document.getElementById('bigCount').textContent = '0';
+  document.getElementById('currentCount').textContent = '0';
+  document.getElementById('countRing').style.strokeDashoffset = 502;
+  updateProgress();
+  document.querySelectorAll('.mala-bead').forEach(b => b.classList.remove('done'));
+  const revealEl = document.getElementById('revealEmoji');
+  revealEl.style.filter = 'blur(40px) brightness(0.3)';
+  revealEl.style.transform = 'scale(0.6)';
+  showToast('🔄 जाप रीसेट हो गया');
+}
+
+function saveProgress() {
+  saveState();
+  showToast('💾 जाप सुरक्षित हो गया 🙏');
+}
+
+function goHome() {
+  showScreen('home');
+  updateHomeStats();
+  renderDeityGrid();
+}
+
+// ===== COMPLETION =====
+function showCompletion() {
+  document.getElementById('completeEmoji').textContent = state.currentDeity.emoji;
+  document.getElementById('completeMsg').innerHTML =
+    `आपने <b style="color:#f5c842">${state.target} बार</b> ${state.currentDeity.name} का नाम जाप किया!<br>भगवान की कृपा आप पर बनी रहे! 🙏`;
+  document.getElementById('completionOverlay').classList.add('show');
+}
+
+function closeCompletion() {
+  document.getElementById('completionOverlay').classList.remove('show');
+  showToast('🌺 भगवान की कृपा से आज का जाप सफल रहा!');
+}
+
+// ===== ALARM =====
+function showAlarmScreen() {
+  showScreen('alarm');
+  renderAlarmList();
+}
+
+function updateAlarmDisplay() {
+  const val = document.getElementById('alarmTimeInput').value;
+  document.getElementById('alarmTimeDisplay').textContent = val;
+}
+
+function toggleDay(btn) {
+  btn.classList.toggle('on');
+}
+
+function setAlarm() {
+  const time = document.getElementById('alarmTimeInput').value;
+  const days = [...document.querySelectorAll('.day-btn.on')].map(b => b.dataset.day);
+  if (!time) { showToast('⚠️ समय चुनें'); return; }
+
+  const alarm = { id: Date.now(), time, days, active: true };
+  state.alarms.push(alarm);
+  saveState();
+  renderAlarmList();
+  scheduleAlarm(alarm);
+  showToast(`⏰ अलार्म ${time} बजे सेट हो गया!`);
+}
+
+function scheduleAlarm(alarm) {
+  if (!('Notification' in window)) return;
+  Notification.requestPermission().then(perm => {
+    if (perm === 'granted') {
+      const [h, m] = alarm.time.split(':').map(Number);
+      const now = new Date();
+      const target = new Date();
+      target.setHours(h, m, 0, 0);
+      if (target <= now) target.setDate(target.getDate() + 1);
+      const delay = target - now;
+      setTimeout(() => {
+        new Notification('🕉️ नाम जाप का समय', {
+          body: 'भगवान का नाम जाप करने का समय आ गया। जय श्री राम! 🙏',
+          icon: '🕉️'
+        });
+      }, delay);
+    }
+  });
+}
+
+function renderAlarmList() {
+  const list = document.getElementById('alarmList');
+  if (state.alarms.length === 0) {
+    list.innerHTML = '<div style="text-align:center;color:rgba(245,200,66,0.4);font-size:14px;padding:20px;">अभी कोई अलार्म नहीं है।</div>';
+    return;
+  }
+  const days = ['रवि','सोम','मंगल','बुध','गुरु','शुक्र','शनि'];
+  list.innerHTML = state.alarms.map((a, i) => `
+    <div class="alarm-item">
+      <div>
+        <div class="alarm-item-time">⏰ ${a.time}</div>
+        <div class="alarm-item-label">${a.days.map(d => days[d]).join(', ')}</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <div class="alarm-toggle">
+          <input type="checkbox" class="toggle-input" id="atog${i}" ${a.active?'checked':''} onchange="toggleAlarm(${i})">
+          <label class="toggle-label" for="atog${i}"></label>
+        </div>
+        <button onclick="deleteAlarm(${i})" style="background:rgba(255,50,50,0.2);border:1px solid rgba(255,80,80,0.3);border-radius:8px;color:#ff8888;padding:5px 10px;cursor:pointer;font-size:13px;">हटाएं</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleAlarm(i) {
+  state.alarms[i].active = !state.alarms[i].active;
+  saveState();
+}
+
+function deleteAlarm(i) {
+  state.alarms.splice(i, 1);
+  saveState();
+  renderAlarmList();
+  showToast('🗑️ अलार्म हटा दिया गया');
+}
+
+// ===== HOME/PROFILE =====
+function showHomeScreen() {
+  showScreen('home');
+  updateHomeStats();
+  renderDeityGrid();
+}
+
+function showProfileInfo() {
+  if (!state.user) return;
+  showToast(`🙏 ${state.user.name} जी | ${state.user.email}`);
+}
+
+// ===== MUSIC =====
+let audioCtx = null, musicNodes = [], musicGain = null;
+
+function toggleMusic() {
+  if (state.musicPlaying) {
+    stopMusic();
+  } else {
+    startMusic();
+  }
+}
+
+function startMusic() {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    musicGain = audioCtx.createGain();
+    musicGain.gain.setValueAtTime(0, audioCtx.currentTime);
+    musicGain.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 2);
+    musicGain.connect(audioCtx.destination);
+
+    // Create peaceful lofi drone - Sa note harmonics
+    const freqs = [65.4, 130.8, 196.2, 261.6, 329.6, 392, 523.3];
+    freqs.forEach((f, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const reverb = audioCtx.createConvolver();
+
+      osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+      osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+
+      // Slow frequency drift for lofi effect
+      osc.frequency.linearRampToValueAtTime(f * 1.001, audioCtx.currentTime + 4);
+      osc.frequency.linearRampToValueAtTime(f * 0.999, audioCtx.currentTime + 8);
+
+      gain.gain.setValueAtTime(0.04 / (i + 1), audioCtx.currentTime);
+      osc.connect(gain);
+      gain.connect(musicGain);
+      osc.start();
+      musicNodes.push(osc);
+    });
+
+    // Om-like bell tones
+    function playBell() {
+      if (!state.musicPlaying || !audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const env = audioCtx.createGain();
+      osc.frequency.setValueAtTime(528, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(264, audioCtx.currentTime + 3);
+      env.gain.setValueAtTime(0, audioCtx.currentTime);
+      env.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 0.1);
+      env.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3);
+      osc.type = 'sine';
+      osc.connect(env); env.connect(musicGain);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 3);
+      setTimeout(playBell, Math.random() * 6000 + 4000);
+    }
+    setTimeout(playBell, 2000);
+
+    state.musicPlaying = true;
+    document.getElementById('musicText').textContent = 'भजन चल रहा है';
+    document.getElementById('musicEq').style.display = 'flex';
+    showToast('♪ शांतिदायक भजन शुरू हुआ 🕉️');
+  } catch(e) {
+    showToast('⚠️ संगीत नहीं चल सका');
+  }
+}
+
+function stopMusic() {
+  if (musicGain) {
+    musicGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+  }
+  setTimeout(() => {
+    musicNodes.forEach(n => { try { n.stop(); } catch(e) {} });
+    musicNodes = [];
+    if (audioCtx) { audioCtx.close(); audioCtx = null; }
+  }, 600);
+  state.musicPlaying = false;
+  document.getElementById('musicText').textContent = 'भजन शुरू करें';
+  document.getElementById('musicEq').style.display = 'none';
+  showToast('♪ भजन रोक दिया गया');
+}
+
+// ===== UTILS =====
+function showToast(msg) {
+  const existing = document.querySelector('.notification-toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'notification-toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ===== INIT =====
+window.onload = function() {
+  loadState();
+  createParticles();
+  document.getElementById('musicBar').style.display = 'none';
+
+  setTimeout(() => {
+    if (state.user) {
+      showScreen('home');
+      goToHome();
+    } else {
+      showScreen('auth');
+    }
+  }, 2500);
+};
+</script>
+</body>
+</html>
